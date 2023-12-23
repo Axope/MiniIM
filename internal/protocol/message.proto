@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package=".;protocol";
+package protocol;
+
+enum MessageType{
+  ToUser = 0;
+  ToGroup = 1;
+}
+
+message Message{
+  string from = 1;
+  string to = 2;
+  MessageType type = 3;
+  string content = 4;
+}
