@@ -7,8 +7,8 @@
 
 - [x] 注册登录
 - [x] 收发消息
-- [] 好友系统
-- [] 群聊系统
+- [ ] 好友系统
+- [ ] 群聊系统
 
 
 ## 技术栈
@@ -23,7 +23,7 @@
 
 ## 快速运行
 
-1. clone该项目 `git@github.com:Axope/miniIM.git`
+1. clone该项目 `git clone git@github.com:Axope/miniIM.git`
 2. 安装依赖 `cd Mini && go mod download`
 3. 添加配置文件`config.yaml`，格式如下：
     ```yaml
