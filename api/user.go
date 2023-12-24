@@ -20,7 +20,12 @@ var UserAPI = new(userAPI)
 // curl -H "Content-Type: application/json" -X POST --data '{"username": "test123","password": "qqqq"}' http://localhost:9876/user/register
 func (u *userAPI) Register(c *gin.Context) {
 	var user models.User
-	c.ShouldBindJSON(&user)
+	if err := c.ShouldBindJSON(&user); err != nil {
+		log.Logger.Debug("josn error", zap.Any("err", err))
+		c.JSON(http.StatusBadRequest, response.Fail("json error"))
+		return
+	}
+
 	log.Logger.Debug("register", zap.Any("username", user.Username), zap.Any("password", user.Password))
 	if err := manager.UserManager.Register(&user); err != nil {
 		log.Logger.Debug("register error", zap.Any("err", err))
@@ -35,7 +40,11 @@ func (u *userAPI) Register(c *gin.Context) {
 
 func (u *userAPI) Login(c *gin.Context) {
 	var user models.User
-	c.ShouldBindJSON(&user)
+	if err := c.ShouldBindJSON(&user); err != nil {
+		log.Logger.Debug("josn error", zap.Any("err", err))
+		c.JSON(http.StatusBadRequest, response.Fail("json error"))
+		return
+	}
 	log.Logger.Debug("login", zap.Any("username", user.Username), zap.Any("password", user.Password))
 
 	if err := manager.UserManager.Login(&user); err != nil {
