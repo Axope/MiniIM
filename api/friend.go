@@ -24,9 +24,10 @@ var FriendAPI = new(friendAPI)
 // response
 // - uuidList: array
 func (f *friendAPI) GetFriends(c *gin.Context) {
-	uuid := c.Param("uuid")
+	uuid := c.DefaultQuery("uuid", "")
+	log.Logger.Sugar().Debugf("uuid = %s", uuid)
 	if uuid == "" {
-		log.Logger.Debug("uuid empty")
+		log.Logger.Debug("missing uuid")
 		c.JSON(http.StatusBadRequest, response.Fail("uuid empty"))
 		return
 	}
@@ -36,6 +37,7 @@ func (f *friendAPI) GetFriends(c *gin.Context) {
 		c.JSON(http.StatusOK, response.Fail(err.Error()))
 		return
 	}
+	log.Logger.Sugar().Debugf("uuidList %v", uuidList)
 	log.Logger.Sugar().Debugf("return json: %v", response.Success(uuidList))
 	c.JSON(http.StatusOK, response.Success(uuidList))
 }
