@@ -48,20 +48,20 @@ func (*groupAPI) CreateGroup(c *gin.Context) {
 //
 // response
 // - response: groupUuid
-// func (*groupAPI) JoinGroup(c *gin.Context) {
-// 	var req request.GroupRequest
-// 	if err := c.ShouldBindJSON(&req); err != nil {
-// 		log.Logger.Debug("josn error", zap.Any("err", err))
-// 		c.JSON(http.StatusBadRequest, response.Fail("json error"))
-// 		return
-// 	}
+func (*groupAPI) JoinGroup(c *gin.Context) {
+	var req request.GroupRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		log.Logger.Debug("josn error", zap.Any("err", err))
+		c.JSON(http.StatusBadRequest, response.Fail("json error"))
+		return
+	}
 
-// 	if err := manager.GroupManager.JoinGroup(&req); err != nil {
-// 		log.Logger.Debug("JoinGroup error", zap.Any("err", err))
-// 		c.JSON(http.StatusOK, response.Fail(err.Error()))
-// 		return
-// 	}
+	if err := manager.GroupManager.JoinGroup(&req); err != nil {
+		log.Logger.Debug("JoinGroup error", zap.Any("err", err))
+		c.JSON(http.StatusOK, response.Fail(err.Error()))
+		return
+	}
 
-// 	log.Logger.Sugar().Debugf("return json: %v", response.Success(req.GroupUuid))
-// 	c.JSON(http.StatusOK, response.Success(req.GroupUuid))
-// }
+	log.Logger.Sugar().Debugf("return json: %v", response.Success(req.GroupUuid))
+	c.JSON(http.StatusOK, response.Success(req.GroupUuid))
+}
