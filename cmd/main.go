@@ -3,6 +3,7 @@ package main
 import (
 	"MiniIM/configs"
 	"MiniIM/internal/dao/pool"
+	"MiniIM/internal/mq/RabbitMQ"
 	"MiniIM/internal/router"
 	"MiniIM/internal/server"
 	"MiniIM/pkg/log"
@@ -18,7 +19,7 @@ func main() {
 	log.Logger.Info("load configs: ", zap.Any("config", c))
 
 	pool.Init()
-	// pool.GetDB().AutoMigrate(&models.User{})
+	RabbitMQ.Init()
 
 	// 启动服务
 	go server.RootServer.Run()

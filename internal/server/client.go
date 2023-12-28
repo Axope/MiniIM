@@ -1,6 +1,8 @@
 package server
 
 import (
+	"MiniIM/internal/manager"
+	"MiniIM/internal/mq/RabbitMQ"
 	"MiniIM/internal/protocol"
 	"MiniIM/pkg/log"
 
@@ -42,7 +44,6 @@ func (c *Client) Read() {
 			)
 			break
 		}
-		log.Logger.Sugar().Debug("read msg: ", string(p))
 
 		msg := &protocol.Message{}
 		err = proto.Unmarshal(p, msg)
@@ -50,7 +51,7 @@ func (c *Client) Read() {
 			log.Logger.Error(err.Error())
 			continue
 		}
-		log.Logger.Sugar().Debug("decode msg: ", msg)
+		log.Logger.Sugar().Debug("decode msg: ", msg, "type: ", msg.GetType())
 
 		RootServer.Event <- msg
 	}
@@ -81,5 +82,27 @@ func (c *Client) Write() {
 			)
 			break
 		}
+	}
+}
+
+func (c *Client) GroupService() {
+	groupUuids, err := manager.GroupMemberManager.GetGroupsByUuid(c.UserUuid)
+	if err != nil {
+		log.Logger.Error(err.Error())
+	}
+	q, err := RabbitMQ.NewQueueAndBind(c.UserUuid, groupUuids)
+	if err != nil {
+		log.Logger.Error(err.Error())
+	}
+
+	msgs, err := RabbitMQ.NewConsume(q.Name)
+	if err != nil {
+		log.Logger.Error(err.Error())
+	}
+
+	// 收到的数据是字节流
+	for m := range msgs {
+		// m.ContentType == "application/octet-stream"
+		c.Send <- m.Body
 	}
 }
