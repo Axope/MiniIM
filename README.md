@@ -19,6 +19,7 @@
 - protobuf协议
 - viper配置管理工具
 - zap和lumberjack日志工具
+- RabbitMQ实现发布订阅
 
 
 ## 快速运行
@@ -38,6 +39,13 @@
       port: 3306
       DBname: "IMDB"      # 数据库名
       timeout: "10s"
+
+    rabbitmq:
+      addr: "localhost:5672"
+      user: "guest"
+      password: "guest"
+      exchangeName: "groups" # 群聊服务的交换机名
+      exchangeType: "direct" # 请选择direct
     ```
 4. 启动 `sh run.sh`
 5. 启动前端测试环境：`https://github.com/Axope/IMweb`
