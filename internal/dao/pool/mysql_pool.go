@@ -1,9 +1,10 @@
 package pool
 
 import (
+	"MiniIM/configs"
+	"MiniIM/internal/models"
 	"database/sql"
 	"fmt"
-	"MiniIM/configs"
 
 	"MiniIM/pkg/log"
 
@@ -12,6 +13,25 @@ import (
 )
 
 var db *gorm.DB
+
+func autoMigrate() {
+	err := db.AutoMigrate(&models.User{})
+	if err != nil {
+		log.Logger.Error("sql AutoMigrate User error")
+	}
+	db.AutoMigrate(&models.Friend{})
+	if err != nil {
+		log.Logger.Error("sql AutoMigrate Friend error")
+	}
+	db.AutoMigrate(&models.Group{})
+	if err != nil {
+		log.Logger.Error("sql AutoMigrate Group error")
+	}
+	db.AutoMigrate(&models.GroupMember{})
+	if err != nil {
+		log.Logger.Error("sql AutoMigrate GroupMember error")
+	}
+}
 
 func Init() {
 	sqlConfig := configs.GetConfig().Mysql
@@ -44,6 +64,7 @@ func Init() {
 	sqlDB.SetMaxOpenConns(100) // 连接池最大可打开连接数
 
 	log.Logger.Info("mysql pool init success")
+	autoMigrate()
 }
 
 func GetDB() *gorm.DB {
