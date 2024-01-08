@@ -90,6 +90,10 @@ func (c *Client) GroupService() {
 	if err != nil {
 		log.Logger.Error(err.Error())
 	}
+	if len(groupUuids) == 0 {
+		log.Logger.Debug("not groups")
+		return
+	}
 	q, err := RabbitMQ.NewQueueAndBind(c.UserUuid, groupUuids)
 	if err != nil {
 		log.Logger.Error(err.Error())
