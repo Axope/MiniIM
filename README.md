@@ -8,7 +8,7 @@
 - [x] 注册登录
 - [x] 收发消息
 - [x] 好友系统
-- [ ] 群聊系统
+- [x] 群聊系统
 
 
 ## 技术栈
@@ -19,7 +19,9 @@
 - protobuf协议
 - viper配置管理工具
 - zap和lumberjack日志工具
-- RabbitMQ实现发布订阅
+- RabbitMQ实现订阅发布
+- Makefile
+- docker分布式部署
 
 
 ## 快速运行
@@ -49,3 +51,9 @@
     ```
 4. 启动 `sh run.sh`
 5. 启动前端测试环境：`https://github.com/Axope/IMweb`
+
+
+## Docker 部署
+
+1. 构建docker image：`docker build -t myim -f deployments/docker/Dockerfile .`
+2. 使用docker compose一键拉起服务: `cd deployments/docker/ && docker compose up -d`
