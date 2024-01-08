@@ -1,13 +1,11 @@
 BINARY="im"
 
 
-
 # colors compatible setting
 CRED:=$(shell tput setaf 1 2>/dev/null)
 CGREEN:=$(shell tput setaf 2 2>/dev/null)
 CYELLOW:=$(shell tput setaf 3 2>/dev/null)
 CEND:=$(shell tput sgr0 2>/dev/null)
-
 
 
 .PHONY: all
