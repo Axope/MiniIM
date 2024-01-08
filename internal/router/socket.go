@@ -40,15 +40,5 @@ func Socket(c *gin.Context) {
 
 	go client.Read()
 	go client.Write()
-	// for {
-	// 	messageType, p, err := client.Conn.ReadMessage()
-	// 	if err != nil {
-	// 		log.Logger.Error(err.Error())
-	// 		return
-	// 	}
-	// 	if err := client.Conn.WriteMessage(messageType, p); err != nil {
-	// 		log.Logger.Error(err.Error())
-	// 		return
-	// 	}
-	// }
+	go client.GroupService()
 }

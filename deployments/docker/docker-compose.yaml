@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+    mysql:
+        image: mysql:latest
+        container_name: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: xxxx
+            MYSQL_DATABASE: IMDB
+        ports:
+            - 3306:3306
+    
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        restart: always
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+
+    myim1:
+        image: myim:latest
+        container_name: myim1
+        restart: always
+        ports:
+            - 8081:9876
+        volumes:
+            - ../../config.yaml:/app/config.yaml
+            - ../../logs/logs1:/app/logs
+        depends_on: 
+            - mysql
+            - rabbitmq
+    myim2:
+        image: myim:latest
+        container_name: myim2
+        restart: always
+        ports:
+            - 8082:9876
+        volumes:
+            - ../../config.yaml:/app/config.yaml
+            - ../../logs/logs2:/app/logs
+        depends_on: 
+            - mysql
+            - rabbitmq
+
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        restart: always
+        volumes:
+            - /root/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - /root/nginx/logs:/var/log/nginx
+            - /root/nginx/html:/usr/share/nginx/html
+        ports:
+            - 80:80

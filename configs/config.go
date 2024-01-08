@@ -20,9 +20,18 @@ type MysqlConfig struct {
 	Timeout  string `yaml:"timeout"`
 }
 
+type RabbitMQConfig struct {
+	Addr         string `yaml:"addr"`
+	User         string `yaml:"user"`
+	Password     string `yaml:"password"`
+	ExchangeName string `yaml:"exchangeName"`
+	ExchangeType string `yaml:"exchangeType"`
+}
+
 type YamlConfig struct {
 	Log   LogConfig
 	Mysql MysqlConfig
+	RabbitMQ RabbitMQConfig
 }
 
 var c YamlConfig

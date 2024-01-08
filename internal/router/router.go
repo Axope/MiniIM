@@ -38,6 +38,12 @@ func Create() *gin.Engine {
 		friendGroup.DELETE("/delFriends", api.FriendAPI.DelFriends)
 	}
 
+	groupGroup := router.Group("/group")
+	{
+		groupGroup.POST("/createGroup", api.GroupAPI.CreateGroup)
+		groupGroup.POST("/joinGroup", api.GroupAPI.JoinGroup)
+	}
+
 	router.GET("/socket", Socket)
 
 	return router
